@@ -1,0 +1,24 @@
+{
+    "name": "my-frontend",
+    "version": "1.0.0",
+    "description": "Frontend application",
+    "scripts": {
+      "build": "webpack --mode production",
+      "start": "webpack serve --mode development",
+      "test": "jest"
+    },
+    "dependencies": {
+      "axios": "^0.21.1"
+    },
+    "devDependencies": {
+      "webpack": "^5.36.2",
+      "webpack-cli": "^4.6.0",
+      "webpack-dev-server": "^3.11.2",
+      "babel-loader": "^8.2.2",
+      "babel-core": "^7.0.0-bridge.0",
+      "babel-preset-env": "^1.7.0",
+      "sass": "^1.32.8",
+      "jest": "^26.6.3"
+    }
+}
+  
