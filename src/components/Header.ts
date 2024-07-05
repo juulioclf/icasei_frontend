@@ -5,7 +5,9 @@ export function renderHeader() {
         <div class="drawer">
             <div class="drawer-links">
                 <button class="drawer-button" onclick="navigateTo('/home')">Vídeos</button>
-                <button class="drawer-button" onclick="navigateTo('/favorites')">Favoritos<span class="favorite-count"></span></button>
+                <button class="drawer-button" onclick="navigateTo('/favorites')">Favoritos
+                    <span id="favorite-count" class="favorite-count">0</span>
+                </button>
             </div>
             <button id="logout-button" class="drawer-button">Logout</button>
         </div>
