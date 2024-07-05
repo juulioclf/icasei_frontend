@@ -14,8 +14,8 @@ Antes de começar, certifique-se de ter instalado o seguinte:
 1. Clone o repositório:
 
     ```bash
-    git clone https://github.com/seu-usuario/seu-projeto-frontend.git
-    cd seu-projeto-frontend
+    git clone https://github.com/juulioclf/icasei_frontend
+    cd icasei_frontend
     ```
 
 2. Crie um arquivo .env na raiz do projeto com as variáveis de ambiente necessárias para o seu frontend, se houver.
@@ -31,13 +31,13 @@ Antes de começar, certifique-se de ter instalado o seguinte:
 2. Build do Docker:
 
     ```bash
-    docker build -t frontend-icasei .
+    docker build -t icasei_frontend .
     ```
 
 3. Execução do Container:
 
     ```bash
-    docker run -p 9000:9000 frontend-icasei
+    docker run -p 9000:9000 icasei_frontend
     ```
 
 ## Testes e Comandos Úteis:
