@@ -1,0 +1,149 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  color: #333;
+  transition: background 0.3s ease;
+  transition: color 0.3s ease;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.drawer {
+  background-color: #1e1e1e;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  width: 250px;
+  flex-shrink: 0;
+}
+
+.drawer-links {
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer-button {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease;
+}
+.drawer-button:hover {
+  background-color: #444;
+}
+
+.videos {
+  flex-grow: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-bar {
+  display: flex;
+  margin-bottom: 20px;
+}
+.search-bar input {
+  flex-grow: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+.search-bar .search-button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #6200ee;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.search-bar .search-button:hover {
+  background-color: #3700b3;
+}
+
+.video-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.video-item {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  iframe {
+    width: 100%;
+    height: auto;
+  }
+
+  .video-details {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #fff;
+
+    .favorite-button {
+      background: none;
+      border: none;
+      font-size: 24px;
+      margin-right: 10px;
+      cursor: pointer;
+      color: white;
+
+      &.favorited {
+        color: yellow;
+      }
+    }
+
+    .video-title {
+      flex-grow: 1;
+      font-size: 16px;
+      font-weight: bold;
+      color: #333;
+    }
+  }
+}
+
+
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .drawer {
+    width: 200px;
+  }
+  .video-item {
+    flex-basis: calc(50% - 20px);
+  }
+}
+@media (max-width: 480px) {
+  .drawer {
+    display: none;
+  }
+  .video-item {
+    flex-basis: 100%;
+  }
+  .search-bar {
+    flex-direction: column;
+  }
+  .search-bar input {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,31 @@
+.drawer {
+  background-color: $search-bar-bg-color;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: $box-shadow;
+  margin-bottom: 20px;
+
+  .drawer-links {
+    display: flex;
+    flex-direction: column;
+
+    .drawer-button {
+      background-color: $button-bg-color;
+      color: $text-color;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 10px;
+      @include transition(background);
+
+      &:hover {
+        background-color: $button-hover-bg-color;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
