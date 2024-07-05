@@ -23,7 +23,6 @@ export const getFavorites = async (page = 1, limit = 10) => {
 export const addFavorite = async (videoId: any) => {
   try {
     const userId = localStorage.getItem('userId');
-    console.log(userId)
     const response = await axios.post(FAVORITES_URL, { videoId: videoId, userId: userId }, { headers: getAuthHeaders() });
     return response.data;
   } catch (error) {

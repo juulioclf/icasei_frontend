@@ -7,7 +7,7 @@ export const login = async (username: string, password: string) => {
   try {
     const response = await axios.post(`${AUTH_URL}/login`, { username, password });
     localStorage.setItem(TOKEN_KEY, response.data.token);
-    localStorage.setItem('userId', response.data.user.userId.toString()); // Armazena o userId no localStorage
+    localStorage.setItem('userId', response.data.user.userId.toString());
     return response.data;
   } catch (error) {
     throw new Error('Login failed');
@@ -15,8 +15,9 @@ export const login = async (username: string, password: string) => {
 };
 
 export const logout = () => {
-  localStorage.removeItem(TOKEN_KEY);
-  localStorage.removeItem('userId'); // Remove também o userId ao fazer logout
+  console.log('deslogando')
+  localStorage.removeItem('jwt_token');
+  localStorage.removeItem('userId');
 };
 
 export const isAuthenticated = () => {

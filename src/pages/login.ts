@@ -1,9 +1,9 @@
 import { login } from '../services/authService';
 
-export function renderHome() {
+export function renderLogin() {
   const app = document.getElementById('app') as HTMLElement;
   app.innerHTML = `
-    <div>
+    <div class="container-form">
       <h2>Login</h2>
       <form id="login-form">
         <div>
@@ -27,9 +27,11 @@ export function renderHome() {
     const password = (document.getElementById('password') as HTMLInputElement).value;
     try {
       const { token, user } = await login(username, password);
-      saveToken(token); // Salva o token JWT no localStorage
-      saveUserId(user.userId); // Salva o userId no localStorage
-      window.location.href = '/home'; 
+      saveToken(token);
+      saveUserId(user.userId); 
+      history.pushState({}, '', '/home');
+      const popStateEvent = new PopStateEvent('popstate');
+      window.dispatchEvent(popStateEvent);
     } catch (error) {
       console.error('Login failed', error);
     }

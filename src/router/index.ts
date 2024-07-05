@@ -1,11 +1,11 @@
-import { renderSignup } from '../components/SignUp';
-import { renderHome } from '../pages/login';
-import { renderFavorites } from '../pages/favorites';
 import { isAuthenticated } from '../services/authService';
-import { renderVideos } from '../pages/home';
 
-// Definindo um tipo para as rotas
-type RouteKey = '/' | '/signup' | '/home' | '/favorites';
+import { renderLogin } from '../pages/login';
+import { renderFavorites } from '../pages/favorites';
+import { renderVideos } from '../pages/home';
+import { renderSignup } from '../pages/signup';
+
+type RouteKey = '/' | '/login' | '/signup' | '/home' | '/favorites' | '/notfound';
 
 function navigateTo(path: string) {
   window.history.pushState({}, '', path);
@@ -17,15 +17,27 @@ function navigateTo(path: string) {
 
 const routes: Record<RouteKey, () => void> = {
   '/': () => {
+    navigateTo('/login');
+  },
+  '/login': () => {
     if (isAuthenticated()) {
       navigateTo('/home');
     } else {
-      renderHome();
+      renderLogin();
     }
   },
   '/signup': renderSignup,
   '/home': renderVideos,
   '/favorites': renderFavorites,
+  '/notfound': () => {
+    document.body.innerHTML = `
+      <h1>Page Not Found</h1>
+      <button id="back-to-login">Go to Login</button>
+    `;
+    document.getElementById('back-to-login')?.addEventListener('click', () => {
+      navigateTo('/login');
+    });
+  }
 };
 
 export function initRouter() {
@@ -34,7 +46,7 @@ export function initRouter() {
     if (routes[path]) {
       routes[path]();
     } else {
-      console.error(`Rota não encontrada: ${path}`);
+      navigateTo('/notfound');
     }
   });
 
@@ -47,7 +59,7 @@ export function initRouter() {
       if (routes[path]) {
         routes[path]();
       } else {
-        console.error(`Rota não encontrada: ${path}`);
+        navigateTo('/notfound');
       }
     }
   });
@@ -56,8 +68,6 @@ export function initRouter() {
   if (routes[path]) {
     routes[path]();
   } else {
-    console.error(`Rota não encontrada: ${path}`);
+    navigateTo('/notfound');
   }
 }
-
-
