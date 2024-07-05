@@ -1,26 +1,25 @@
 import { renderHeader } from '../components/Header';
 import { renderSearchBar } from '../components/SearchBar';
-import { renderVideoList, renderFavoriteVideoList } from '../components/VideoList';
-import { renderPagination } from '../components/Pagination';
+import { renderVideoList } from '../components/VideoList';
 import { addFavorite, countFavorites, removeFavorite } from '../services/favoriteService';
 import { searchVideos } from '../services/videoService';
-import { Video, FavoriteVideo } from '../types/types';
 import { logout } from '../services/authService';
 
 let nextPageToken = '';
 let prevPageToken = '';
+let hasData = false;
 
 function showLoading() {
     const loading = document.getElementById('loading');
     if (loading) {
-      loading.classList.add('active');
+        loading.classList.add('active');
     }
 }
 
 function hideLoading() {
     const loading = document.getElementById('loading');
     if (loading) {
-      loading.classList.remove('active');
+        loading.classList.remove('active');
     }
 }
 
@@ -34,9 +33,12 @@ export function renderVideos(): void {
             <div class="videos">
                 <h2>Procure por seus vídeos:</h2>
                 ${renderSearchBar()}
-                <div id="loading" class="loading">Loading...</div> <!-- Elemento de loading -->
+                <div id="loading" class="loading">Loading...</div>
                 <div class="video-list" id="video-list"></div>
-                ${renderPagination()}
+                <div class="pagination" id="pagination" style="display: none;">
+                    <button id="prev-page">Previous</button>
+                    <button id="next-page">Next</button>
+                </div>
             </div>
         </div>
     `;
@@ -61,10 +63,19 @@ async function search(): Promise<void> {
         videoList.innerHTML = renderVideoList(result.videos);
         nextPageToken = result.nextPageToken;
         prevPageToken = result.prevPageToken;
+        hasData = result.videos.length > 0;
+        updatePaginationVisibility();
     } catch (error) {
         console.error('Error searching videos:', error);
     } finally {
         hideLoading();
+    }
+}
+
+function updatePaginationVisibility(): void {
+    const pagination = document.getElementById('pagination') as HTMLElement;
+    if (pagination) {
+        pagination.style.display = hasData ? 'flex' : 'none';
     }
 }
 
@@ -96,14 +107,12 @@ async function nextPage(): Promise<void> {
     }
 }
 
-async function toggleFavorite(videoId: string, isAdding: boolean): Promise<void> {
+async function toggleFavorite(videoId: string): Promise<void> {
     try {
-        if (isAdding) {
-            await addFavorite(videoId);
-        } else {
-            await removeFavorite(videoId);
-        }
+
+        await addFavorite(videoId);
         updateFavoriteCount();
+
     } catch (error) {
         console.error('Error toggling favorite:', error);
     }
@@ -111,12 +120,12 @@ async function toggleFavorite(videoId: string, isAdding: boolean): Promise<void>
 
 function handleFavoriteToggle(event: Event): void {
     const target = event.target as HTMLElement;
-    if (target.classList.contains('star') || target.classList.contains('favorite-button')) {
+    if (target.classList.contains('favorite-button')) {
         const videoId = target.getAttribute('data-video-id') || '';
         const isFavorite = target.getAttribute('data-is-favorite') === 'true';
         
-        toggleFavorite(videoId, isFavorite);
-        
+        toggleFavorite(videoId);
+
         target.classList.toggle('favorited', isFavorite);
         target.setAttribute('data-is-favorite', String(!isFavorite));
     }

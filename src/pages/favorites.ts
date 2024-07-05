@@ -1,22 +1,23 @@
 import { addFavorite, countFavorites, removeFavorite, getFavorites } from '../services/favoriteService';
 import { renderHeader } from '../components/Header';
-import { renderFavoriteVideoList } from '../components/VideoList';
+import { renderFavoriteVideoList } from '../components/FavoriteList';
 import { renderPagination } from '../components/Pagination';
 
 let currentPage = 1;
 function showLoading() {
     const loading = document.getElementById('loading');
     if (loading) {
-      loading.classList.add('active');
+        loading.classList.add('active');
     }
-  }
+}
 
-  function hideLoading() {
+function hideLoading() {
     const loading = document.getElementById('loading');
     if (loading) {
-      loading.classList.remove('active');
+        loading.classList.remove('active');
     }
-  }
+}
+
 export function renderFavorites(): void {
     const app = document.getElementById('app') as HTMLElement;
     if (!app) return;
@@ -26,7 +27,7 @@ export function renderFavorites(): void {
             ${renderHeader()}
             <div class="videos">
                 <h2>Seus vídeos favoritos:</h2>
-                <div id="loading" class="loading">Loading...</div> <!-- Elemento de loading -->
+                <div id="loading" class="loading">Loading...</div>
                 <div class="video-list" id="video-list"></div>
                 ${renderPagination()}
             </div>
@@ -66,22 +67,19 @@ function updatePagination(totalPages: number): void {
 
 async function prevPage(): Promise<void> {
     if (currentPage > 1) {
-        fetchAndRenderFavorites(currentPage - 1);
+        await fetchAndRenderFavorites(currentPage - 1);
     }
 }
 
 async function nextPage(): Promise<void> {
-    fetchAndRenderFavorites(currentPage + 1);
+    await fetchAndRenderFavorites(currentPage + 1);
 }
 
-async function toggleFavorite(videoId: string, isAdding: boolean): Promise<void> {
+async function toggleFavorite(videoId: string): Promise<void> {
     try {
-        if (isAdding) {
-            await addFavorite(videoId);
-        } else {
-            await removeFavorite(videoId);
-        }
-        fetchAndRenderFavorites(currentPage);
+        await removeFavorite(videoId);
+
+        await fetchAndRenderFavorites(currentPage);
         updateFavoriteCount();
     } catch (error) {
         console.error('Error toggling favorite:', error);
@@ -92,8 +90,7 @@ function handleFavoriteToggle(event: Event): void {
     const target = event.target as HTMLElement;
     if (target.classList.contains('favorite-button')) {
         const videoId = target.getAttribute('data-video-id') || '';
-        const isFavorite = target.getAttribute('data-is-favorite') === 'true';
-        toggleFavorite(videoId, isFavorite);
+        toggleFavorite(videoId);
     }
 }
 
